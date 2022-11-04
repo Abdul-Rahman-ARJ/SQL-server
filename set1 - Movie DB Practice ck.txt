@@ -1,0 +1,147 @@
+CREATE DATABASE Practice_ck;
+USE Practice_ck;
+
+Create table CUSTOMER_MASTER
+(
+	CUSTOMER_ID Varchar(10),
+	CUSTOMER_NAME Varchar(30) NOT NULL,
+	CONTACT_NO INT,
+	CONTACT_ADD Varchar(20),
+	DATE_OF_REGISTRATION Date NOT NULL,
+	AGE Varchar(15)NOT NULL,
+	Constraint MT_cts1 PRIMARY KEY(CUSTOMER_ID)
+);
+
+Create table LIBRARY_CARD_MASTER
+(
+	CARD_ID Varchar(10),
+	DESCRIPTION Varchar(30) NOT NULL,
+	AMOUNT	INT,
+	NUMBER_OF_YEARS int NOT NULL,
+	Constraint MT_cts2 PRIMARY KEY(CARD_ID)
+);
+
+
+Create table MOVIES_MASTER
+(
+	MOVIE_ID Varchar(10),	
+	MOVIE_NAME Varchar(50) NOT NULL,
+	RELEASE_DATE Varchar(30) NOT NULL,
+	LANGUAGE Varchar(30),
+	RATING int,
+	DURATION VARCHAR(10) NOT NULL,	
+	MOVIE_TYPE Varchar(3),
+	MOVIE_CATEGORY VARCHAR(20) NOT NULL,
+	DIRECTOR VARCHAR(20) NOT NULL,		
+	LEAD_ROLE_1 Varchar(3) NOT NULL,
+	LEAD_ROLE_2 VARCHAR(4) NOT NULL,
+	RENT_COST INT,
+	Constraint MT_cts4 PRIMARY KEY(MOVIE_ID)	
+);
+
+Create table CUSTOMER_CARD_DETAILS
+(
+	CUSTOMER_ID Varchar(10),
+	CARD_ID VARCHAR(10),
+	ISSUE_DATE DATE NOT NULL,
+	Constraint MT_cts3 PRIMARY KEY(CUSTOMER_ID),
+	Constraint MT_CTS41 FOREIGN KEY(CUSTOMER_ID) References CUSTOMER_MASTER(CUSTOMER_ID),
+        Constraint MT_CTS42 FOREIGN KEY(CARD_ID) References LIBRARY_CARD_MASTER(CARD_ID)
+);
+
+Create table CUSTOMER_ISSUE_DETAILS
+(
+	ISSUE_ID Varchar(10) NOT NULL,
+	CUSTOMER_ID Varchar(10) NOT NULL,
+	MOVIE_ID VARCHAR(10),	
+	ISSUE_DATE Date NOT NULL,
+	RETURN_DATE Date NOT NULL,
+        ACTUAL_DATE_RETURN Date NOT NULL,
+	Constraint MT_cts5 PRIMARY KEY(ISSUE_ID),
+        Constraint MT_Mem FOREIGN KEY(CUSTOMER_ID) References CUSTOMER_MASTER(CUSTOMER_ID),
+        Constraint MT_Mem1 FOREIGN KEY(MOVIE_ID) References MOVIES_MASTER(MOVIE_ID)
+
+);
+
+select * from [dbo].[CUSTOMER_MASTER]
+select * from [dbo].[CUSTOMER_CARD_DETAILS]
+select * from [dbo].[CUSTOMER_ISSUE_DETAILS]
+select * from [dbo].[LIBRARY_CARD_MASTER]
+select * from [dbo].[MOVIES_MASTER]
+-------------------DML----------------------------
+
+
+Insert into CUSTOMER_MASTER Values('CUS001', 'AMIT', 9876543,'ADD1', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS002', 'ABDHUL', 8765432,'ADD2', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS003', 'GAYAN', 7654321,'ADD3', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS004', 'RADHA', 6543210,'ADD4', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS005', 'GURU', NULL,'ADD5', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS006', 'MOHAN', 4321098,'ADD6', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS007', 'NAME7', 3210987,'ADD7', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS008', 'NAME8', 2109876,'ADD8', '2013-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS009', 'NAME9', NULL,'ADD9', '2013-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS010', 'NAM10', 9934567,'ADD10', '2013-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS011', 'NAM11', 9875678,'ADD11', '2013-02-12', '21');
+
+Insert into LIBRARY_CARD_MASTER Values('CR001', 'Silver', 200, 5);
+Insert into LIBRARY_CARD_MASTER Values('CR002', 'Gold', 400, 9);
+Insert into LIBRARY_CARD_MASTER Values('CR003', 'Platinum', 600, 8);
+Insert into LIBRARY_CARD_MASTER Values('CR004', 'VISA', 800, 7);
+Insert into LIBRARY_CARD_MASTER Values('CR005', 'CREDIT', 1200, 6);
+
+Insert into MOVIES_MASTER Values('MV001', 'DIEHARD', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','ACTION','DIR1','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV002', 'THE MATRIX', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ACTION','DIR2','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV003', 'INCEPTION', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','ACTION','DIR3','L15','L2',100);
+Insert into MOVIES_MASTER Values('MV004', 'DARK KNIGHT', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ACTION','DIR4','L15','L2',100);
+Insert into MOVIES_MASTER Values('MV005', 'OFFICE S', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','COMEDY','DIR5','L12','L24',100);
+Insert into MOVIES_MASTER Values('MV006', 'SHAWN OF DEAD', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','COMEDY','DIR6','L1','L25',100);
+Insert into MOVIES_MASTER Values('MV007', 'YOUNG FRANKEN', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','COMEDY','DIR7','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV008', 'CAS', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ROMANCE','DIR8','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV009', 'GWW', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ROMANCE','DIR9','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV010', 'TITANIC', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ROMANCE','DIR10','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV011', 'THE NOTE BOOK', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ROMANCE','DIR11','L1','L2',100);
+
+
+Insert into CUSTOMER_CARD_DETAILS Values('CUS001', 'CR001', '2012-05-13');
+Insert into CUSTOMER_CARD_DETAILS Values('CUS002', 'CR002', '2012-05-13');
+Insert into CUSTOMER_CARD_DETAILS Values('CUS003', 'CR002', '2013-05-13');
+Insert into CUSTOMER_CARD_DETAILS Values('CUS004', 'CR003', '2013-05-13');
+Insert into CUSTOMER_CARD_DETAILS Values('CUS005', 'CR003', '2012-05-13');
+
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS001', 'CUS001', 'MV001', '2012-05-13', '2012-05-13','2012-05-13');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS002', 'CUS001', 'MV001', '2012-05-01', '2012-05-16','2012-05-16');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS003', 'CUS002', 'MV004', '2012-05-02', '2012-05-06','2012-05-16');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS004', 'CUS002', 'MV004', '2012-04-03', '2012-04-16','2012-04-20');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS005', 'CUS002', 'MV009', '2012-04-04', '2012-04-16','2012-04-20');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS006', 'CUS003', 'MV002', '2012-03-30', '2012-04-15','2012-04-20');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS007', 'CUS003', 'MV003', '2012-04-20', '2012-05-05','2012-05-05');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS008', 'CUS003', 'MV005', '2012-04-21', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS009', 'CUS003', 'MV001', '2012-04-22', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS010', 'CUS003', 'MV009', '2012-04-22', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS011', 'CUS003', 'MV010', '2012-04-23', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS012', 'CUS003', 'MV010', '2012-04-24', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS013', 'CUS003', 'MV008', '2012-04-25', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS014', 'CUS004', 'MV007', '2012-04-26', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS015', 'CUS004', 'MV006', '2012-04-27', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS016', 'CUS004', 'MV006', '2012-04-28', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS017', 'CUS004', 'MV001', '2012-04-29', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS018', 'CUS010', 'MV008', '2012-04-24', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS019', 'CUS011', 'MV009', '2012-04-27', '2012-05-07','2012-05-25');
+
+======================================================================
+Section 1:
+1. display the name of member who issued movie and the count of the 
+movies issued and display 0 for the member who have not issued any 
+movie
+
+==================================================================
+
+2. display id,name,card id,amount in $(amount/73.12) upto 0 decimals
+ 
+======================================================
+
+3. waq to display customer id and customer name ,num of times movie  issued to customer in comedy movie category display only customers who has issude more than once
+
+===========================================================================================================================================
+Section 2: 
+1. Write a named blocked which will display the no.of customers with first letter 'r' and have paid fine i.e actual return date is greater than return date
